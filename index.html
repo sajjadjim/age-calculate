@@ -3,17 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Age Calculator</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Health Checker</title>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="container shadow-xl">
-        <h2 class="animate-pulse md:text-3xl text-xl font-semibold">Age Calculator</h2>
-        <input type="datetime-local" id="birthDate">
-        <button onclick="calculateAge()">Find Age</button>
-        <p id="result"></p>
+<body class="text-center grid justify-center">
+    <div id="welcome-page" class="container">
+        <h1> ❤️‍🩹Welcome 🧑‍⚕️</h1>
+        <p>Enter your name to continue:</p>
+        <input type="text" id="username" placeholder="Your Name">
+        <button class="" onclick="goToOptions()">Next</button>
     </div>
-    <script src="script.js"></script>
+
+    <div id="options-page" class="container hidden">
+        <h1 id="greeting"></h1>
+        <p>Select an option:</p>
+        <button onclick="showSection('bmi')">BMI Calculator</button>
+        <button onclick="showSection('age')">Age Calculator</button>
+        <button onclick="showSection('suggestions')">Human Body Age Suggestions</button>
+    </div>
+
+    <div id="bmi-section" class="container hidden">
+        <h1>BMI Calculator</h1>
+        <input type="number" id="weight" placeholder="Weight (kg)">
+        <input type="number" id="height-feet" placeholder="Height (feet)">
+        <input type="number" id="height-inches" placeholder="Height (inches)">
+        <button onclick="calculateBMI()">Calculate BMI</button>
+        <p id="bmi-result"></p>
+        <p id="health-suggestion"></p>
+        <button onclick="goBack()">Back</button>
+    </div>
+
+    <div id="age-section" class="container hidden">
+        <h1>Age Calculator</h1>
+        <input type="date" id="dob">
+        <button onclick="calculateAge()">Calculate Age</button>
+        <p id="age-result"></p>
+        <button onclick="goBack()">Back</button>
+    </div>
+
+    <div id="suggestions-section" class="container hidden">
+        <h1>Human Body Age Suggestions</h1>
+        <ul>
+            <li>Eat a balanced diet rich in vitamins and minerals.</li>
+            <li>Exercise regularly to maintain a healthy body.</li>
+            <li>Stay hydrated and get enough sleep.</li>
+            <li>Reduce stress and practice mindfulness.</li>
+        </ul>
+        <button onclick="goBack()">Back</button>
+    </div>
+
+    <script src="script.js">
+    </script>
 </body>
 </html>

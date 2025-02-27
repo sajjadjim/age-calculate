@@ -1,50 +1,70 @@
-function calculateAge() {
-    const birthDate = document.getElementById("birthDate").value;
+function goToOptions() {
+    let name = document.getElementById("username").value;
+    if (name.trim() === "") {
+        alert("Please enter your name");
+        return;
+    }
+    document.getElementById("welcome-page").classList.add("hidden");
+    document.getElementById("options-page").classList.remove("hidden");
+    document.getElementById("greeting").textContent = `Hello, ${name}! Choose an option:`;
+}
+
+function showSection(section) {
+    document.getElementById("options-page").classList.add("hidden");
+    document.getElementById(section + "-section").classList.remove("hidden");
+}
+
+function goBack() {
+    document.querySelectorAll(".container").forEach(el => el.classList.add("hidden"));
+    document.getElementById("options-page").classList.remove("hidden");
+}
+
+function calculateBMI() {
+    let weight = parseFloat(document.getElementById("weight").value);
+    let feet = parseFloat(document.getElementById("height-feet").value);
+    let inches = parseFloat(document.getElementById("height-inches").value);
+    if (!weight || !feet) {
+        alert("Please enter valid weight and height");
+        return;
+    }
+    let heightMeters = ((feet * 12) + inches) * 0.0254;
+    let bmi = (weight / (heightMeters * heightMeters)).toFixed(2);
+    document.getElementById("bmi-result").textContent = `Your BMI is: ${bmi}`;
     
-    if (!birthDate) {
-        document.getElementById("result").innerText = "Please enter a valid date.";
+    let suggestion = "";
+    if (bmi < 18.5) {
+        suggestion = "You are underweight. Consider a balanced diet with more proteins and healthy fats.";
+    } else if (bmi >= 18.5 && bmi < 24.9) {
+        suggestion = "Your weight is normal. Maintain a healthy diet and regular exercise.";
+    } else if (bmi >= 25 && bmi < 29.9) {
+        suggestion = `You are overweight. You may need to lose ${((bmi - 24.9) * heightMeters * heightMeters).toFixed(1)} kg for a healthy weight.`;
+    } else {
+        suggestion = `You are obese. You may need to lose ${((bmi - 24.9) * heightMeters * heightMeters).toFixed(1)} kg to reach a normal BMI.`;
+    }
+    document.getElementById("health-suggestion").textContent = suggestion;
+}
+
+function calculateAge() {
+    let dob = document.getElementById("dob").value;
+    if (!dob) {
+        alert("Please select your date of birth");
         return;
     }
-
-    const birthDateObj = new Date(birthDate);
-    const now = new Date();
-
-    if (birthDateObj > now) {
-        document.getElementById("result").innerText = "Birth date cannot be in the future!";
-        return;
-    }
-
-    let years = now.getFullYear() - birthDateObj.getFullYear();
-    let months = now.getMonth() - birthDateObj.getMonth();
-    let days = now.getDate() - birthDateObj.getDate();
-    let hours = now.getHours() - birthDateObj.getHours();
-    let minutes = now.getMinutes() - birthDateObj.getMinutes();
-    let seconds = now.getSeconds() - birthDateObj.getSeconds();
-
-    if (seconds < 0) {
-        seconds += 60;
-        minutes--;
-    }
-    if (minutes < 0) {
-        minutes += 60;
-        hours--;
-    }
-    if (hours < 0) {
-        hours += 24;
-        days--;
-    }
+    let birthDate = new Date(dob);
+    let today = new Date();
+    
+    let years = today.getFullYear() - birthDate.getFullYear();
+    let months = today.getMonth() - birthDate.getMonth();
+    let days = today.getDate() - birthDate.getDate();
+    
     if (days < 0) {
-        const lastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-        days += lastMonth.getDate();
         months--;
+        days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
     }
     if (months < 0) {
-        months += 12;
         years--;
+        months += 12;
     }
-
-    document.getElementById("result").innerHTML = 
-        `You are <strong>${years}</strong> years, <strong>${months}</strong> months, 
-        <strong>${days}</strong> days, <strong>${hours}</strong> hours, 
-        <strong>${minutes}</strong> minutes, and <strong>${seconds}</strong> seconds old.`;
+    
+    document.getElementById("age-result").textContent = `Your age is: ${years} years, ${months} months, and ${days} days.`;
 }
